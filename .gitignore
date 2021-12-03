@@ -1,0 +1,10 @@
+setup/
+data/
+__pycache__/
+work_dirs/
+sa_dataset/
+
+*.csv
+*.json
+*.pth
+*.txt
