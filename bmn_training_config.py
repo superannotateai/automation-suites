@@ -4,11 +4,11 @@ _base_ = [
 
 # dataset settings
 dataset_type = 'ActivityNetDataset'
-data_root = '/home/erik/temporal_action_localization/sa_dataset/mmaction_feat/'
-data_root_val = '/home/erik/temporal_action_localization/sa_dataset/mmaction_feat/'
-ann_file_train = '/home/erik/temporal_action_localization/sa_dataset/sa_dataset_train.json'
-ann_file_val = '/home/erik/temporal_action_localization/sa_dataset/sa_dataset_val.json'
-ann_file_test = '/home/erik/temporal_action_localization/sa_dataset/sa_dataset_val.json'
+data_root = '/content/automation-suites/sa_dataset/mmaction_feat/'
+data_root_val = '/content/automation-suites/sa_dataset/mmaction_feat/'
+ann_file_train = '/content/automation-suites/sa_dataset/sa_dataset_train.json'
+ann_file_val = '/content/automation-suites/sa_dataset/sa_dataset_val.json'
+ann_file_test = '/content/automation-suites/sa_dataset/sa_dataset_val.json'
 
 test_pipeline = [
     dict(type='LoadLocalizationFeature'),
