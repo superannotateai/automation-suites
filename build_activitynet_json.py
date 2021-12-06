@@ -29,13 +29,14 @@ for annot_file in data_root.glob('*.json'):
                 "segment": [event_start, event_end]
             }
             video_annotations.append(video_event)
-    annots_all['database'][video_name] = {
-        "duration_second": video_duration,
-        "subset": video_subset,
-        "resolution": video_resolution,
-        "url": video_url,
-        "annotations": video_annotations
-    }
+    if len(video_annotations) != 0:
+        annots_all['database'][video_name] = {
+            "duration_second": video_duration,
+            "subset": video_subset,
+            "resolution": video_resolution,
+            "url": video_url,
+            "annotations": video_annotations
+        }
 
 with open(save_root / 'sa_dataset_activitynet.json', 'w') as f:
     json.dump(annots_all, f)
