@@ -81,7 +81,7 @@ def generate_rawframes_filelist():
         fout.write('\n'.join(val_lines))
 
     def clip_list(k, anno, video_anno):
-        duration = anno['duration']
+        duration = anno['duration_second']
         num_frames = video_anno[0]
         fps = num_frames / duration
         segs = anno['annotations']
