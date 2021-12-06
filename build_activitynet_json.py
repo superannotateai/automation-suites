@@ -3,6 +3,9 @@ from pathlib import Path
 import numpy as np
 
 data_root = Path('data')
+save_root = Path('sa_dataset')
+if not save_root.exists():
+    save_root.mkdir()
 annots_all = {"database": {}}
 for annot_file in data_root.glob('*.json'):
     with open(annot_file) as f:
@@ -34,7 +37,7 @@ for annot_file in data_root.glob('*.json'):
         "annotations": video_annotations
     }
 
-with open('sa_dataset_activitynet.json', 'w') as f:
+with open(save_root / 'sa_dataset_activitynet.json', 'w') as f:
     json.dump(annots_all, f)
 
 with open(data_root / "classes" / "classes.json") as f:
