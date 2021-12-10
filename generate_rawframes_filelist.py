@@ -2,6 +2,12 @@
 import json
 import os
 import os.path as osp
+import argparse
+
+# Parse Arguments
+parser = argparse.ArgumentParser()
+parser.add_argument("--supervised", action="store_true")
+args = parser.parse_args()
 
 data_file = './sa_dataset'
 rawframe_dir = f'{data_file}/rawframes'
@@ -48,7 +54,10 @@ def generate_rawframes_filelist():
 
         if subset in ['training', 'validation']:
             annotations = data['annotations']
-            label = simple_label(annotations)
+            if args.supervised:
+                label = simple_label(annotations)
+            else:
+                label = -1
             if subset == 'training':
                 dir_list = train_dir_list
                 data_dict = training
@@ -96,17 +105,17 @@ def generate_rawframes_filelist():
             newline = f'{k} {start} {end - start + 1} {label}'
             lines.append(newline)
         return lines
+    if args.supervised:
+        train_clips, val_clips = [], []
+        for k in training:
+            train_clips.extend(clip_list(k, database[key_dict[k]], training[k]))
+        for k in validation:
+            val_clips.extend(clip_list(k, database[key_dict[k]], validation[k]))
 
-    train_clips, val_clips = [], []
-    for k in training:
-        train_clips.extend(clip_list(k, database[key_dict[k]], training[k]))
-    for k in validation:
-        val_clips.extend(clip_list(k, database[key_dict[k]], validation[k]))
-
-    with open(osp.join(data_file, 'anet_train_clip.txt'), 'w') as fout:
-        fout.write('\n'.join(train_clips))
-    with open(osp.join(data_file, 'anet_val_clip.txt'), 'w') as fout:
-        fout.write('\n'.join(val_clips))
+        with open(osp.join(data_file, 'anet_train_clip.txt'), 'w') as fout:
+            fout.write('\n'.join(train_clips))
+        with open(osp.join(data_file, 'anet_val_clip.txt'), 'w') as fout:
+            fout.write('\n'.join(val_clips))
     with open(json_file, 'w') as fout:
         json.dump(load_dict, fout)
 

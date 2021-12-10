@@ -14,6 +14,9 @@ ssl._create_default_https_context = ssl._create_unverified_context
 data_file = './sa_dataset'
 output_dir = f'{data_file}/videos'
 
+def get_length(input_video):
+    result = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', input_video], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    return float(result.stdout)
 
 def download_clip(video_url,
                   output_filename,
@@ -67,7 +70,9 @@ def download_clip_wrapper(id_url, output_dir):
 
     downloaded, log = download_clip(id_url[1], output_filename)
     status = tuple([id_url[0], downloaded, log])
-    return status
+    duration = get_length(output_filename)
+
+    return (status, id_url[0], duration)
 
 
 def parse_activitynet_annotations(anno_file):
@@ -84,17 +89,17 @@ def parse_activitynet_annotations(anno_file):
 
     """
 
-    data = mmcv.load(anno_file)['database']
+    data = mmcv.load(anno_file)
     idx_urls = []
-    for id, data_point in data.items():
+    for id, data_point in data['database'].items():
         idx_urls.append((id, data_point['url']))
 
-    return idx_urls
+    return idx_urls, data
 
 
 def main(anno_file, output_dir, num_jobs=24):
     # Reading and parsing ActivityNet.
-    youtube_ids = parse_activitynet_annotations(anno_file)
+    youtube_ids, data = parse_activitynet_annotations(anno_file)
 
     # Creates folders where videos will be saved later.
     if not os.path.exists(output_dir):
@@ -108,9 +113,15 @@ def main(anno_file, output_dir, num_jobs=24):
         status_list = Parallel(n_jobs=num_jobs)(
             delayed(download_clip_wrapper)(index, output_dir)
             for index in youtube_ids)
-
+    
+    only_statuses = []
+    for status, index, duration in status_list:
+        if data['database'][index]['duration_second'] == "":
+            data['database'][index]['duration_second'] = duration
+        only_statuses.append(status)
     # Save download report.
-    mmcv.dump(status_list, 'download_report.json')
+    mmcv.dump(only_statuses, 'download_report.json')
+    mmcv.dump(data, anno_file)
 
 
 if __name__ == '__main__':
