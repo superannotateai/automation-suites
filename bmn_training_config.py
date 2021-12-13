@@ -8,7 +8,7 @@ data_root = '/content/automation-suites/sa_dataset/mmaction_feat/'
 data_root_val = '/content/automation-suites/sa_dataset/mmaction_feat/'
 ann_file_train = '/content/automation-suites/sa_dataset/sa_dataset_train.json'
 ann_file_val = '/content/automation-suites/sa_dataset/sa_dataset_val.json'
-ann_file_test = '/content/automation-suites/sa_dataset/sa_dataset_val.json'
+ann_file_test = '/content/automation-suites/sa_dataset/sa_dataset_test.json'
 
 test_pipeline = [
     dict(type='LoadLocalizationFeature'),

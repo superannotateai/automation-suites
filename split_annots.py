@@ -25,7 +25,7 @@ for video_name, video_data in anno_database['database'].items():
     video_data.pop("subset")
     if video_subset == 'training':
         video_dict_train[video_name] = video_data
-    elif video_subset == 'testing':
+    elif video_subset == 'test':
         video_dict_test[video_name] = video_data
     elif video_subset == 'validation':
         video_dict_val[video_name] = video_data

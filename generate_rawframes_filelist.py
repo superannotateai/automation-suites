@@ -15,6 +15,7 @@ action_name_list = 'action_name.csv'
 
 train_rawframe_dir = rawframe_dir
 val_rawframe_dir = rawframe_dir
+test_rawframe_dir = rawframe_dir
 
 json_file = f'{data_file}/sa_dataset_activitynet.json'
 
@@ -32,6 +33,9 @@ def generate_rawframes_filelist():
     val_dir_list = [
         osp.join(val_rawframe_dir, x) for x in os.listdir(val_rawframe_dir)
     ]
+    test_dir_list = [
+        osp.join(test_rawframe_dir, x) for x in os.listdir(test_rawframe_dir)
+    ]
 
     def simple_label(anno):
         label = anno[0]['label']
@@ -46,21 +50,25 @@ def generate_rawframes_filelist():
     database = load_dict['database']
     training = {}
     validation = {}
+    test = {}
     key_dict = {}
 
     for k in database:
         data = database[k]
         subset = data['subset']
 
-        if subset in ['training', 'validation']:
+        if subset in ['training', 'validation', 'test']:
             annotations = data['annotations']
-            if args.supervised:
+            if subset != 'test':
                 label = simple_label(annotations)
             else:
                 label = -1
             if subset == 'training':
                 dir_list = train_dir_list
                 data_dict = training
+            elif subset == 'test':
+                dir_list = test_dir_list
+                data_dict = test
             else:
                 dir_list = val_dir_list
                 data_dict = validation
@@ -83,11 +91,17 @@ def generate_rawframes_filelist():
         k + ' ' + str(validation[k][0]) + ' ' + str(validation[k][1])
         for k in validation
     ]
+    test_lines = [
+        k + ' ' + str(test[k][0]) + ' ' + str(test[k][1])
+        for k in test
+    ]
 
     with open(osp.join(data_file, 'anet_train_video.txt'), 'w') as fout:
         fout.write('\n'.join(train_lines))
     with open(osp.join(data_file, 'anet_val_video.txt'), 'w') as fout:
         fout.write('\n'.join(val_lines))
+    with open(osp.join(data_file, 'anet_test_video.txt'), 'w') as fout:
+        fout.write('\n'.join(test_lines))
 
     def clip_list(k, anno, video_anno):
         duration = anno['duration_second']
