@@ -3,10 +3,11 @@
 
 In this repository we will continuously post automation-suites for the annotation process at SuperAnnotate. Notebooks are originally written and tested in Google Colab. So if you are looking for a plug and play Google Colab is the way to go.
 
-| Notebook                    | Google Colab | Github |
-| --------------------------- | ------------ | ---------- |
-| Speech Recognition with Whisper | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/superannotateai/automation-suites/blob/main/asr_automation/asr_automation_pipeline.ipynb) | [Open in Github](asr_automation/asr_automation_pipeline.ipynb) |
-| Text Classification with Cohere     | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/superannotateai/automation-suites/blob/main/text_classification/text_classification_cohere_pipeline.ipynb) | [Open in Github](text_classification/text_classification_cohere_pipeline.ipynb) |
+| Notebook                    | Google Colab | Github                                                                                 |
+| --------------------------- | ------------ |----------------------------------------------------------------------------------------|
+| Image classifiaction with Rekognition | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/assets/colab-badge.svg) | [Open in Github](image_classification/image_classification_rekognition_pipeline.ipynb) |
+| Speech Recognition with Whisper | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/superannotateai/automation-suites/blob/main/asr_automation/asr_automation_pipeline.ipynb) | [Open in Github](asr_automation/asr_automation_pipeline.ipynb)                         |
+| Text Classification with Cohere     | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/superannotateai/automation-suites/blob/main/text_classification/text_classification_cohere_pipeline.ipynb) | [Open in Github](text_classification/text_classification_cohere_pipeline.ipynb)        |
 
 We encourage the community to open pull requests and share with us their automation pipelines in the form of IPython notebooks. Please find the API Reference for SuperAnnotate Python SDK [here](https://superannotate.readthedocs.io/en/stable/superannotate.sdk.html).
 
